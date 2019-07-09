@@ -1,4 +1,6 @@
 package com.example.instantgrandma;
 
-public class PostActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PostActivity extends AppCompatActivity {
 }

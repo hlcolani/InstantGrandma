@@ -1,5 +1,6 @@
 package com.example.instantgrandma;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             Toast.makeText(getApplicationContext(), "Welcome, " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, PostActivity.class);
+            startActivity(i);
         } else {
             // show the signup or login screen
             //TODO-- Log out
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
                         if (user != null) {
                             Toast.makeText(getApplicationContext(), "logged in", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(getApplicationContext(), PostActivity.class);
+                            startActivity(i);
                         } else {
                             // Signup failed. Look at the ParseException to see what happened.
                         }
@@ -71,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             Toast.makeText(getApplicationContext(), "Welcome, new user!", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(getApplicationContext(), PostActivity.class);
+                            startActivity(i);
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
