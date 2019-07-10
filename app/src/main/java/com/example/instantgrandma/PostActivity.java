@@ -18,12 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.instantgrandma.models.Post;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.util.List;
 
 import static android.widget.Toast.*;
 
@@ -141,5 +144,16 @@ public class PostActivity extends AppCompatActivity {
                 makeText(this, "Picture wasn't taken!", LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void queryPosts() {
+        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+
+            }
+        });
+
     }
 }
