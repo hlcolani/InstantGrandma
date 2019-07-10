@@ -1,6 +1,8 @@
 package com.example.instantgrandma;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,16 +12,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.instantgrandma.models.Post;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+
+import static android.widget.Toast.*;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -54,7 +60,12 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String description = etDescription.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
-                savePost(description, user);
+                if (photoFile == null || ivPostImage.getDrawable() == null) {
+                    Log.d(TAG, "no photo");
+                    Toast.makeText(getApplicationContext(), "No photo!", LENGTH_SHORT).show();
+                    return;
+                }
+                savePost(description, user, photoFile);
 
 
             }
@@ -99,20 +110,36 @@ public class PostActivity extends AppCompatActivity {
         return file;
     }
 
-    private void savePost(String description, ParseUser user) {
+    private void savePost(String description, ParseUser user, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(user);
+        post.setImage(new ParseFile(photoFile));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                Log.d(TAG, e.toString());
+                Log.d(TAG, "Post wasn't saved");
                 } else {
                     etDescription.setText("");
                 }
 
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // by this point we have the camera photo on disk
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                // RESIZE BITMAP, see section below
+                // Load the taken image into a preview
+                ivPostImage.setImageBitmap(takenImage);
+            } else { // Result was a failure
+                makeText(this, "Picture wasn't taken!", LENGTH_SHORT).show();
+            }
+        }
     }
 }
