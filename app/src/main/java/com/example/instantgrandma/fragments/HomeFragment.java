@@ -79,6 +79,7 @@ public class HomeFragment extends Fragment {
 
     private void queryPosts() {
         ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.orderByDescending("createdAt");
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
