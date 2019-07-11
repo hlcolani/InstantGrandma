@@ -10,9 +10,11 @@
         android:id="@+id/ivDetail"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginLeft="57dp"
         app:layout_constraintBottom_toTopOf="@+id/tvDetailTime"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDetailDescription"
-        tools:layout_editor_absoluteX="57dp"
         tools:srcCompat="@tools:sample/avatars[6]" />
 
     <TextView
@@ -21,10 +23,10 @@
         android:layout_height="87dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="48dp"
         android:text="Description"
-        app:layout_constraintBottom_toTopOf="@+id/ivDetail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailUser" />
 
     <TextView
         android:id="@+id/tvDetailTime"
@@ -36,4 +38,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivDetail" />
+
+    <TextView
+        android:id="@+id/tvDetailUser"
+        android:layout_width="112dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/ivDetailProPic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivDetailProPic"
+        android:layout_width="62dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginRight="92dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars[13]" />
 </androidx.constraintlayout.widget.ConstraintLayout>
