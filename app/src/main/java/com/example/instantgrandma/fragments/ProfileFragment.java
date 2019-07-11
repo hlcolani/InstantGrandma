@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
     Button btnChangeProPic;
     Button btnSaveProfile;
     ImageView ivPropic;
-    TextView tvUsername;
+    EditText tvUsername;
     private File photoFile;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -70,7 +70,9 @@ public class ProfileFragment extends Fragment {
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
         tvUsername.setText(ParseUser.getCurrentUser().getUsername());
         ParseFile image = (ParseFile) ParseUser.getCurrentUser().get("image");
-        Glide.with(getContext()).load(image.getUrl()).into(ivPropic);
+        if (image != null) {
+            Glide.with(getContext()).load(image.getUrl()).into(ivPropic);
+        }
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +145,7 @@ public class ProfileFragment extends Fragment {
     private void saveProfile(ParseUser user, File photoFile) {
 
         user.put("image", new ParseFile(photoFile));
+        user.put("username", tvUsername.getText().toString());
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

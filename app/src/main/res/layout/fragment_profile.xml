@@ -6,7 +6,7 @@
     tools:context=".fragments.ProfileFragment"
     android:orientation="vertical">
 
-    <TextView
+    <EditText
         android:id="@+id/tvUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
