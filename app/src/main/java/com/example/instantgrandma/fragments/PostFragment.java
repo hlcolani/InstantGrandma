@@ -50,15 +50,6 @@ public class PostFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PostFragment newInstance(String param1, String param2) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
@@ -171,6 +162,7 @@ public class PostFragment extends Fragment {
                     Log.d(TAG, "Post wasn't saved");
                 } else {
                     etDescription.setText("");
+                    ivPostImage.setImageResource(0);
                 }
 
             }
