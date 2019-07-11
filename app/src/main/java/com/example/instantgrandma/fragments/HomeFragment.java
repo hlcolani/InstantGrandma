@@ -1,15 +1,26 @@
 package com.example.instantgrandma.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.instantgrandma.PostAdapter;
 import com.example.instantgrandma.R;
+import com.example.instantgrandma.models.Post;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +30,10 @@ import com.example.instantgrandma.R;
  */
 public class HomeFragment extends Fragment {
 
+    ArrayList<Post> mPosts;
+    RecyclerView rvPosts;
     private OnFragmentInteractionListener mListener;
+    PostAdapter postAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,14 +55,14 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rvPosts = (RecyclerView) view.findViewById(R.id.rvPosts);
+        mPosts = new ArrayList<Post>();
+        postAdapter = new PostAdapter(mPosts);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
+        rvPosts.setAdapter(postAdapter);
     }
 
     @Override
@@ -70,5 +84,17 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void queryPosts() {
+        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                //TODO add posts to model
+                //TODO notify adapter
+            }
+        });
+
     }
 }
