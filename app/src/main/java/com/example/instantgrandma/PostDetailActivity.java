@@ -1,6 +1,7 @@
 package com.example.instantgrandma;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView tvUser;
     ImageView ivProPic;
     Post post;
+    Button btnLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class PostDetailActivity extends AppCompatActivity {
         tvTime = findViewById(R.id.tvDetailTime);
         tvUser = findViewById(R.id.tvDetailUser);
         ivProPic = findViewById(R.id.ivDetailProPic);
+        btnLike = findViewById(R.id.btnLike);
 
         post = (Post) getIntent().getExtras().get(Post.class.getSimpleName());
 

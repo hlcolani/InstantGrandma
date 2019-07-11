@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getContext(), "No photo!", LENGTH_SHORT).show();
                     return;
                 }
-                savePost(ParseUser.getCurrentUser(), photoFile);
+                saveProfile(ParseUser.getCurrentUser(), photoFile);
 
             }
         });
@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment {
         return file;
     }
 
-    private void savePost(ParseUser user, File photoFile) {
+    private void saveProfile(ParseUser user, File photoFile) {
 
         user.put("image", new ParseFile(photoFile));
         user.saveInBackground(new SaveCallback() {

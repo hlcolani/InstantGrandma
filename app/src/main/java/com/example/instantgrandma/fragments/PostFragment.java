@@ -152,6 +152,7 @@ public class PostFragment extends Fragment {
 
     private void savePost(String description, ParseUser user, File photoFile) {
         Post post = new Post();
+        post.setLikes(0);
         post.setDescription(description);
         post.setUser(user);
         post.setImage(new ParseFile(photoFile));
