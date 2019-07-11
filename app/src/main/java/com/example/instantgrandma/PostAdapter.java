@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.instantgrandma.models.Post;
 
 import java.util.List;
@@ -43,12 +44,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Post post = mPosts.get(position);
         //populate the view w movie info
         viewHolder.tvDescription.setText(post.getDescription());
+        Glide.with(context).load(post.getImage().getUrl()).into(viewHolder.ivImage);
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mPosts.size();
     }
 
     //create the viewholder as a static inner class

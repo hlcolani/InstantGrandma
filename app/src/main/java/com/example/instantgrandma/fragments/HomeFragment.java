@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvPosts.setLayoutManager(linearLayoutManager);
         rvPosts.setAdapter(postAdapter);
+        queryPosts();
     }
 
     @Override
@@ -91,6 +92,10 @@ public class HomeFragment extends Fragment {
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
+                for (int i = 0; i < posts.size(); i++) {
+                    mPosts.add(posts.get(i));
+                    postAdapter.notifyItemInserted(mPosts.size() - 1);
+                }
                 //TODO add posts to model
                 //TODO notify adapter
             }
