@@ -1,95 +1,77 @@
 package com.example.instantgrandma;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import com.parse.LogInCallback;
+import com.example.instantgrandma.fragments.HomeFragment;
+import com.example.instantgrandma.fragments.PostFragment;
+import com.example.instantgrandma.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etUsername;
-    EditText etPassword;
-    Button btnLogin;
-    Button btnSignUp;
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        // define your fragments here
+        final Fragment postFragment = new PostFragment();
+        final Fragment homeFragment = new HomeFragment();
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            Toast.makeText(getApplicationContext(), "Welcome, " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
-            Intent i = new Intent(this, PostActivity.class);
-            startActivity(i);
-        } else {
-            // show the signup or login screen
-            //TODO-- Log out
-        }
-
-
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logInInBackground(String.valueOf(etUsername.getText()), String.valueOf(etPassword.getText()), new LogInCallback() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public void done(ParseUser user, com.parse.ParseException e) {
-
-                        if (user != null) {
-                            Toast.makeText(getApplicationContext(), "logged in", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getApplicationContext(), PostActivity.class);
-                            startActivity(i);
-                        } else {
-                            // Signup failed. Look at the ParseException to see what happened.
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment fragment;
+                        switch (item.getItemId()) {
+                            case R.id.action_compose:
+                                fragment = postFragment;
+                                break;
+                            case R.id.action_home:
+                                fragment = homeFragment;
+                                break;
+                            default:
+                                fragment = postFragment;
+                                break;
                         }
+                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                        return true;
                     }
                 });
-            }
-        });
-
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ParseUser user = new ParseUser();
-                // Set core properties
-                user.setUsername(String.valueOf(etUsername.getText()));
-                user.setPassword(String.valueOf(etPassword.getText()));
-
-                // Invoke signUpInBackground
-                user.signUpInBackground(new SignUpCallback() {
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(getApplicationContext(), "Welcome, new user!", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getApplicationContext(), PostActivity.class);
-                            startActivity(i);
-                        } else {
-                            // Sign up didn't succeed. Look at the ParseException
-                            // to figure out what went wrong
-                        }
-                    }
-                });
-
-            }
-
-
-        });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_compose);
     }
 
 
+
+
+
+    private void queryPosts() {
+        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+
+            }
+        });
+
+    }
 }
