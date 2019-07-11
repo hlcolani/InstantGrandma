@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.instantgrandma.fragments.HomeFragment;
 import com.example.instantgrandma.fragments.PostFragment;
+import com.example.instantgrandma.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // define your fragments here
         final Fragment postFragment = new PostFragment();
         final Fragment homeFragment = new HomeFragment();
+        final Fragment profileFragment = new ProfileFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.action_home:
                                 fragment = homeFragment;
+                                break;
+                            case R.id.action_profile:
+                                fragment = profileFragment;
                                 break;
                             default:
                                 fragment = postFragment;
