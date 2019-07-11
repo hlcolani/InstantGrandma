@@ -45,6 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Post post = mPosts.get(position);
         //populate the view w movie info
         viewHolder.tvDescription.setText(post.getDescription());
+        viewHolder.tvTime.setText(post.getCreatedAt().toString());
+        viewHolder.tvUser.setText(post.getUser().getUsername());
         Glide.with(context).load(post.getImage().getUrl()).into(viewHolder.ivImage);
 
 
@@ -60,11 +62,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         TextView tvDescription;
         ImageView ivImage;
+        TextView tvTime;
+        TextView tvUser;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvUser = itemView.findViewById(R.id.tvUser);
             ivImage = itemView.findViewById(R.id.ivImage);
             itemView.setOnClickListener(this);
         }
