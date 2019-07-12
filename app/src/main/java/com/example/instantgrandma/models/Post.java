@@ -1,5 +1,7 @@
 package com.example.instantgrandma.models;
 
+import androidx.annotation.Nullable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -32,7 +34,14 @@ public class Post extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
-    public int getLikes() {return getInt(KEY_LIKES);}
+    public int getLikes() {
+        @Nullable Number n = getNumber(KEY_LIKES);
+        if (n != null) {
+            return n.intValue();
+        } else {
+            return 0;
+        }
+    }
 
     public void setLikes(int likes) {put(KEY_LIKES, likes);}
 
