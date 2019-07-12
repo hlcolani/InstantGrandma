@@ -48,14 +48,28 @@ public class PostDetailActivity extends AppCompatActivity {
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int likes = post.getLikes() + 1;
-                post.setLikes(likes);
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        tvLikes.setText(Integer.toString(post.getLikes()));
-                    }
-                });
+                if (btnLike.getText().equals("Like")) {
+                    int likes = post.getLikes() + 1;
+                    post.setLikes(likes);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            btnLike.setText("Unlike");
+                            tvLikes.setText(Integer.toString(post.getLikes()));
+                        }
+                    });
+                } else {
+                    int likes = post.getLikes() - 1;
+                    post.setLikes(likes);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            btnLike.setText("Like");
+                            tvLikes.setText(Integer.toString(post.getLikes()));
+                        }
+                    });
+                }
+
             }
         });
 
